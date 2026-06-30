@@ -1,10 +1,7 @@
 {
-  "/(workspace)/campaigns/page": "app/(workspace)/campaigns/page.js",
-  "/(workspace)/dashboard/page": "app/(workspace)/dashboard/page.js",
   "/(workspace)/campaigns/[id]/page": "app/(workspace)/campaigns/[id]/page.js",
-  "/(workspace)/campaigns/new/page": "app/(workspace)/campaigns/new/page.js",
-  "/(workspace)/campaigns/[id]/content/page": "app/(workspace)/campaigns/[id]/content/page.js",
   "/(workspace)/campaigns/[id]/strategy/page": "app/(workspace)/campaigns/[id]/strategy/page.js",
+  "/(workspace)/campaigns/[id]/content/page": "app/(workspace)/campaigns/[id]/content/page.js",
   "/(workspace)/campaigns/[id]/performance/page": "app/(workspace)/campaigns/[id]/performance/page.js",
   "/(workspace)/campaigns/[id]/report/page": "app/(workspace)/campaigns/[id]/report/page.js"
 }
