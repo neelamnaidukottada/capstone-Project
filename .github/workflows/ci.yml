@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/packages/agents/requirements-dev.txt
+          pip install -r backend/apps/api/requirements-dev.txt
+
+      - name: Run agents tests (coverage >=80)
+        run: |
+          cd backend/packages/agents
+          python -m pytest
+
+      - name: Run API tests (coverage >=80)
+        env:
+          API_SECRET_KEY: test-secret-key-with-32-characters-minimum
+          SUPABASE_URL: https://example.supabase.co
+          SUPABASE_ANON_KEY: test-anon
+          SUPABASE_SERVICE_ROLE_KEY: test-service-role
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+          AMZUR_API_KEY: test-amzur
+        run: |
+          cd backend/apps/api
+          python -m pytest
+
+      - name: Upload backend coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: |
+            backend/packages/agents/coverage.xml
+            backend/apps/api/coverage.xml
+          flags: backend
+          use_oidc: true
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type-check
+        run: pnpm type-check
+
+      - name: Frontend tests (coverage >=70)
+        run: pnpm --filter @acm/web test:coverage
+
+      - name: Upload frontend coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: frontend/apps/web/coverage/lcov.info
+          flags: frontend
+          use_oidc: true
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+    needs: [frontend-tests]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: test-anon
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+        run: pnpm test:e2e

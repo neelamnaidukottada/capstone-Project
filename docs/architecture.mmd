@@ -1,0 +1,32 @@
+flowchart LR
+    U[User]
+    W[Next.js Web App]
+    A[FastAPI API]
+    O[LangGraph Orchestrator]
+    P[Planner Agent]
+    C[Content Creator Agent]
+    M[Media Buyer Agent]
+    R[Performance Analyst Agent]
+    T[Reporter Agent]
+    D[(Supabase Postgres)]
+    S[WebSocket Stream]
+
+    U --> W
+    W -->|REST| A
+    W -->|Subscribe| S
+
+    A -->|Start campaign| O
+    O --> P
+    O --> C
+    O --> M
+    O --> R
+    O --> T
+
+    O -->|Read/Write state| D
+    A -->|Auth + campaign CRUD| D
+
+    O -->|Lifecycle events| S
+    S --> W
+
+    A -->|Approval endpoints| O
+    W -->|Approve strategy/budget| A

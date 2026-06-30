@@ -1,0 +1,11 @@
+{
+  "agent_started": ["event", "timestamp", "agent_name", "input_summary"],
+  "agent_completed": ["event", "timestamp", "agent_name", "output_summary", "latency"],
+  "human_approval_required": ["event", "timestamp", "step", "payload", "timeout"],
+  "optimization_alert": ["event", "timestamp", "severity", "message", "recommendation"],
+  "campaign_completed": ["event", "timestamp", "campaign_id", "report_url"],
+  "error": ["event", "timestamp", "agent_name", "error_message", "retry_count"],
+  "ping": ["event", "timestamp"],
+  "pong": ["event", "timestamp"],
+  "connected": ["event", "timestamp", "campaign_id", "message"]
+}

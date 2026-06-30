@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+  <rect width="900" height="700" fill="#f8fafc"/>
+  <rect x="320" y="40" width="260" height="620" rx="36" fill="#0f172a"/>
+  <rect x="336" y="70" width="228" height="560" rx="24" fill="#ffffff"/>
+  <rect x="354" y="110" width="192" height="80" rx="10" fill="#dbeafe"/>
+  <rect x="354" y="206" width="192" height="120" rx="10" fill="#dcfce7"/>
+  <rect x="354" y="342" width="192" height="120" rx="10" fill="#fef3c7"/>
+  <rect x="354" y="478" width="192" height="120" rx="10" fill="#fee2e2"/>
+  <text x="70" y="90" font-size="36" font-family="Segoe UI, sans-serif" fill="#0f172a">Mobile Layout Placeholder</text>
+</svg>

@@ -1,0 +1,85 @@
+{
+  "pages": {
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/login/page.js"
+    ],
+    "/(workspace)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/layout.js"
+    ],
+    "/(workspace)/dashboard/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/dashboard/loading.js"
+    ],
+    "/(workspace)/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/dashboard/page.js"
+    ],
+    "/(workspace)/campaigns/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/page.js"
+    ],
+    "/(workspace)/campaigns/[id]/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/loading.js"
+    ],
+    "/(workspace)/campaigns/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/page.js"
+    ],
+    "/(workspace)/campaigns/[id]/strategy/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/strategy/loading.js"
+    ],
+    "/(workspace)/campaigns/[id]/strategy/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/strategy/page.js"
+    ],
+    "/(workspace)/campaigns/[id]/report/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/report/loading.js"
+    ],
+    "/(workspace)/campaigns/[id]/report/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/report/page.js"
+    ],
+    "/(workspace)/campaigns/[id]/content/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/content/loading.js"
+    ],
+    "/(workspace)/campaigns/[id]/content/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/[id]/content/page.js"
+    ],
+    "/(workspace)/campaigns/new/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(workspace)/campaigns/new/page.js"
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "autonomous-campaign-manager",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "frontend/apps/*",
+    "frontend/packages/*",
+    "backend/apps/*",
+    "backend/packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:api": "cd backend/apps/api && uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
+    "dev:web": "pnpm --filter @acm/web dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "type-check": "turbo run type-check",
+    "test": "pnpm test:backend && pnpm test:frontend",
+    "test:backend": "cd backend/packages/agents && python -m pytest && cd ../../../backend/apps/api && python -m pytest",
+    "test:frontend": "pnpm --filter @acm/web test:coverage",
+    "test:e2e": "playwright test",
+    "clean": "turbo run clean",
+    "deploy": "pnpm build && echo Deploy artifacts ready"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.5",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "lint-staged": "^15.2.2",
+    "husky": "^9.0.11"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,json,md,yaml,yml}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.1.0"
+}

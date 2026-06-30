@@ -1,0 +1,47 @@
+repos:
+  # ── Python: ruff linter ───────────────────────────────────────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+        types_or: [python, pyi]
+        files: ^(apps/api|packages/agents)/
+      - id: ruff-format
+        types_or: [python, pyi]
+        files: ^(apps/api|packages/agents)/
+
+  # ── Python: mypy type checker ─────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        files: ^apps/api/
+        additional_dependencies:
+          - pydantic>=2.7.1
+          - pydantic-settings>=2.2.1
+          - fastapi>=0.111.0
+
+  # ── TypeScript / JS: ESLint ───────────────────────────────────────────────
+  - repo: local
+    hooks:
+      - id: eslint
+        name: ESLint
+        language: node
+        entry: pnpm eslint --fix
+        types: [file]
+        files: \.(ts|tsx)$
+        pass_filenames: true
+
+  # ── General: trailing whitespace, EOF, YAML, etc. ─────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: detect-private-key
