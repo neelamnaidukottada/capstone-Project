@@ -72,12 +72,14 @@ class TestRegisterFlow:
 
         # Mock auth failure
         mock_supabase_anon.auth.sign_up.side_effect = AuthApiError(
-            "Invalid password (too weak)"
+            "Invalid password (too weak)",
+            400,
+            "weak_password",
         )
 
         payload = RegisterRequest(
             email="newuser@example.com",
-            password="weak",
+            password="StrongPass123!",
             full_name="Test User",
             organization_name="Test Org",
         )
@@ -157,12 +159,19 @@ class TestRegisterFlow:
         user_upsert_response = MagicMock()
         user_upsert_response.data = []
         
+        app_users_table = MagicMock()
+        app_users_table.select.return_value.eq.return_value.limit.return_value.execute.return_value = no_user_response
+        app_users_table.upsert.return_value.execute.return_value = user_upsert_response
+
+        default_table = MagicMock()
+        default_table.insert.return_value.execute.return_value = org_insert_response
+        default_table.upsert.return_value.execute.return_value = membership_response
+
         # Setup side effects for different table calls
         def table_side_effect(table_name):
-            mock_table = MagicMock()
             if table_name == "app_users":
-                mock_table.upsert.return_value.execute.return_value = user_upsert_response
-            return mock_table
+                return app_users_table
+            return default_table
 
         mock_supabase_admin.table.side_effect = table_side_effect
 
@@ -187,8 +196,9 @@ class TestRegisterFlow:
         # Capture the email passed to the database
         captured_emails = []
 
-        def email_check_side_effect(email):
-            captured_emails.append(email)
+        def email_check_side_effect(field, email):
+            if field == "email":
+                captured_emails.append(email)
             mock_eq = MagicMock()
             mock_eq.limit.return_value.execute.return_value = no_user_response
             return mock_eq

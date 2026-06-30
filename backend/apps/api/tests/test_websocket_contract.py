@@ -10,7 +10,7 @@ from app.services import campaign_service
 from app.websocket import WebSocketEventType, websocket_manager
 
 
-CONTRACT_PATH = Path(__file__).resolve().parents[2] / "web" / "src" / "lib" / "websocket-contract.json"
+CONTRACT_PATH = Path(__file__).resolve().parents[4] / "frontend" / "apps" / "web" / "src" / "lib" / "websocket-contract.json"
 
 
 def _load_contract() -> dict[str, list[str]]:

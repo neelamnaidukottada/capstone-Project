@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { Route } from 'next'
-import { BarChart3, FileText, LayoutDashboard, Megaphone, PenSquare, Rocket, Loader2, Trash2 } from 'lucide-react'
+import { LayoutDashboard, Rocket, Loader2, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/components/auth-provider'
 import { useToast } from '@/components/toaster'
@@ -49,13 +49,14 @@ export function SidebarNav() {
         const data = await getCampaigns(50, 0)
         if (!active) return
         setCampaigns(data.campaigns.slice(0, 10) || [])
-      } catch (err) {
+      } catch (_err) {
         if (!active) return
         // Silently fail - sidebar won't show campaign list if API fails
         setCampaigns([])
       } finally {
-        if (!active) return
-        setLoading(false)
+        if (active) {
+          setLoading(false)
+        }
       }
     }
 

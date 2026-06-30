@@ -145,6 +145,20 @@ class CampaignStore:
         message = self._error_text(exc)
         return "service_role_key is required" in message
 
+    def _is_connectivity_error(self, exc: Exception) -> bool:
+        message = self._error_text(exc)
+        connectivity_markers = (
+            "getaddrinfo failed",
+            "name or service not known",
+            "temporary failure in name resolution",
+            "connection refused",
+            "connecterror",
+            "timed out",
+            "timeout",
+            "[errno 11001]",
+        )
+        return any(marker in message for marker in connectivity_markers)
+
     def _is_org_fk_violation(self, exc: Exception) -> bool:
         message = self._error_text(exc)
         return "organization_id" in message and ("foreign key" in message or "violates" in message)
@@ -393,7 +407,7 @@ class CampaignStore:
                         status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                         detail="Campaign persistence blocked by legacy user foreign key. Run migration 004_campaigns_schema_reconcile.sql.",
                     ) from exc
-                elif self._is_missing_admin_config(exc):
+                elif self._is_missing_admin_config(exc) or self._is_connectivity_error(exc):
                     # Keep test/local no-Supabase workflows working.
                     self._db_available = False
                     logger.warning("campaign_db_create_inmemory_only", error=str(exc))
@@ -429,7 +443,7 @@ class CampaignStore:
                         self._campaigns[campaign_id] = db_record
                     return db_record
             except Exception as exc:
-                if self._is_missing_admin_config(exc):
+                if self._is_missing_admin_config(exc) or self._is_connectivity_error(exc):
                     self._db_available = False
                     logger.warning("campaign_db_get_inmemory_only", campaign_id=str(campaign_id), error=str(exc))
                 else:

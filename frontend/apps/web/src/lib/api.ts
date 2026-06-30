@@ -18,6 +18,31 @@ export type CampaignSummary = {
   error?: string | null
 }
 
+export type CampaignQASimulatePayload = {
+  scenario:
+    | 'content_zero_budget'
+    | 'content_missing_audience'
+    | 'media_low_budget_students'
+    | 'media_high_budget'
+    | 'media_invalid_budget'
+    | 'performance_poor'
+    | 'performance_excellent'
+    | 'report_full'
+  content_request?: string
+  budget?: number
+  audience?: string
+  metrics?: {
+    impressions: number
+    clicks: number
+    conversions: number
+    spend: number
+    revenue?: number
+    unique_reach?: number
+    objective?: string
+    campaign_duration_days?: number
+  }
+}
+
 export class ApiError extends Error {
   status: number
 
@@ -213,10 +238,19 @@ export async function getCampaigns(limit: number = 50, offset: number = 0) {
       estimated_completion: string | null
       created_at: string
       updated_at: string
+      budget_total?: number | null
+      roi?: number | null
       pending_approval?: { type?: 'strategy' | 'media_plan' } | null
     }>
     total: number
   }>(`/api/v1/campaigns?limit=${limit}&offset=${offset}`)
+}
+
+export async function simulateCampaignQa(id: string, payload: CampaignQASimulatePayload) {
+  return request<{ campaign_id: string; status: string; message: string }>(`/api/v1/campaigns/${id}/qa/simulate`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
 }
 
 export async function getCampaignStatus(id: string) {

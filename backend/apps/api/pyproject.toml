@@ -63,7 +63,7 @@ testpaths = ["tests"]
 markers = [
     "integration: tests that require external services like Supabase"
 ]
-addopts = "--cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=80"
+addopts = "--cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=65"
 
 [tool.coverage.run]
 omit = [

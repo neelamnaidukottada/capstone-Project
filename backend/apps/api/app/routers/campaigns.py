@@ -75,6 +75,12 @@ async def list_campaigns(
                 "campaign_id": c.id,
                 "name": c.name,
                 "status": c.status,
+                "budget_total": float(c.goal.get("budget", 0)) if isinstance(c.goal, dict) else None,
+                "roi": (
+                    float(((c.performance or {}).get("metrics") or {}).get("roi"))
+                    if ((c.performance or {}).get("metrics") or {}).get("roi") is not None
+                    else None
+                ),
                 "current_agent": c.current_agent,
                 "progress_percentage": c.progress_percentage,
                 "estimated_completion": c.estimated_completion,
